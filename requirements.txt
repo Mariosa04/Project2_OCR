@@ -1,0 +1,16 @@
+# Handwriting Arabic OCR — Qwen2-VL-2B + LoRA (QARI-style)
+torch>=2.2.0
+transformers>=4.45.0
+accelerate>=0.33.0
+peft>=0.12.0
+datasets>=2.19.0
+pillow>=10.0.0
+numpy>=1.24.0
+opencv-python-headless>=4.8.0
+qwen-vl-utils>=0.0.8
+safetensors>=0.4.0
+jiwer>=3.0.0
+tqdm>=4.60.0
+
+# Optional: 4-bit QLoRA (Linux + CUDA; Windows support varies)
+bitsandbytes>=0.43.0
