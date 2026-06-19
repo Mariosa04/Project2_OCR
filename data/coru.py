@@ -25,15 +25,15 @@ def _row_to_messages(image: str, text: str) -> dict[str, Any]:
         "role": "user",
         "content": [
           # Added dummy "text": "" so HF doesn't inject null
-          {"type": "image", "image": image, "text": ""},
+          {"type": "image", "image": image},
           # Added dummy "image": "" so HF doesn't inject null
-          {"type": "text", "image": "", "text": USER_OCR_PROMPT},
+          {"type": "text", "text": USER_OCR_PROMPT},
         ],
       },
       {
         "role": "assistant",
         # Added dummy "image": "" so HF doesn't inject null
-        "content": [{"type": "text", "image": "", "text": t}],
+        "content": [{"type": "text", "text": t}],
       },
     ],
   }
