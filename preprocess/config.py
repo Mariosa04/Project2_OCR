@@ -7,6 +7,8 @@ from dataclasses import dataclass, field
 
 @dataclass
 class HandwritingOCRConfig:
+    # In config.py, find max_pixels and change it to this:
+    max_pixels: int = 200704  # Optimized for single-line OCR (256 * 28 * 28)
     # Base model (paper: Qwen2-VL-2B-Instruct)
     model_id: str = "Qwen/Qwen2-VL-2B-Instruct"
     output_dir: str = "./outputs/handwriting_arabic_lora"
