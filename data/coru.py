@@ -7,6 +7,7 @@ import random
 import tempfile
 from typing import Any
 
+import json
 import numpy as np
 import torch
 from datasets import Dataset
@@ -166,7 +167,7 @@ def build_handwriting_dataset_coru(
             img_path = os.path.join(tmp_dir, f"hajji_{rng.randint(0, 10**9 - 1)}.png")
             pil.save(img_path)
 
-            out["messages"].append(_row_to_messages(img_path, str(tx))["messages"])
+            out["messages"].append(json.dumps(_row_to_messages(img_path, str(tx))["messages"]))
         return out
 
     return ds.map(

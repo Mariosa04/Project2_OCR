@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+import json
 import torch
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor
@@ -21,7 +22,7 @@ def make_qwen2_vl_collator(processor: AutoProcessor) -> Callable:
     assistant_ids = tokenizer.encode("assistant", add_special_tokens=False)
 
     def collate_fn(examples: list[dict]) -> dict[str, torch.Tensor]:
-        messages_batch = [ex["messages"] for ex in examples]
+        messages_batch = [json.loads(ex["messages"]) for ex in examples]
         texts = [
             processor.apply_chat_template(m, tokenize=False, add_generation_prompt=False)
             for m in messages_batch

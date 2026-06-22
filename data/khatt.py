@@ -6,7 +6,7 @@ import random
 from typing import Any
 
 from datasets import Dataset, load_dataset
-
+import json
 from data.augment import  augment_handwriting_image
 from preprocess.prompts import USER_OCR_PROMPT
 import tempfile
@@ -61,7 +61,7 @@ def build_handwriting_dataset(
 
             pil.save(img_path)
 
-            out["messages"].append(_row_to_messages(img_path, str(tx))["messages"])
+            out["messages"].append(json.dumps(_row_to_messages(img_path, str(tx))["messages"]))
         return out
 
     return ds.map(
