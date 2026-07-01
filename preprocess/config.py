@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class HandwritingOCRConfig:
+    max_steps: int = -1  # -1 means disabled (use epochs). Set to a number like 700 to stop early.
     # In config.py, find max_pixels and change it to this:
     max_pixels: int = 200704  # Optimized for single-line OCR (256 * 28 * 28)
     # Base model (paper: Qwen2-VL-2B-Instruct)
@@ -14,8 +15,9 @@ class HandwritingOCRConfig:
     output_dir: str = "./outputs/handwriting_arabic_lora"
 
     # Image bounds (Qwen2-VL uses dynamic resolution; cap VRAM — tune per GPU)
-    min_pixels: int = 256 * 28 * 28
-    max_pixels: int = 1280 * 28 * 28
+    # Image bounds optimized for single-line receipts (saves massive GPU time)
+    min_pixels: int = 28 * 28 * 28   # 21,952 pixels (Prevents upscaling tiny images)
+    max_pixels: int = 128 * 28 * 28  # 100,352 pixels (Strict cap to speed up T4)
 
     # LoRA (paper: rank 16; targets LM + light touch on vision projections)
     lora_r: int = 16

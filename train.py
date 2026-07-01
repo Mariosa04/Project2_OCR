@@ -92,6 +92,7 @@ def parse_args() -> argparse.Namespace:
             "Use this to fine-tune a previously trained adapter on a new dataset."
         ),
     )
+    p.add_argument("--max_steps", type=int, default=-1, help="Total training steps. Overrides epochs if set.")
 
 
     # === CORU OCR Dataset ===
@@ -169,6 +170,10 @@ def main() -> None:
         cfg.coru_max_samples = args.coru_max_samples
     if args.use_coru:
         cfg.use_coru = True
+    if args.save_total_limit is not None:
+        cfg.save_total_limit = args.save_total_limit
+    if args.max_steps is not None:
+        cfg.max_steps = args.max_steps
 
 
 
@@ -310,6 +315,7 @@ def main() -> None:
 
     training_args = TrainingArguments(
         output_dir=cfg.output_dir,
+        max_steps=cfg.max_steps,  # <--- ADD THIS LINE
         per_device_train_batch_size=cfg.per_device_train_batch_size,
         gradient_accumulation_steps=cfg.gradient_accumulation_steps,
         learning_rate=cfg.learning_rate,

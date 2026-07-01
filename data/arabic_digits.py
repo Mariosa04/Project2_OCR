@@ -17,6 +17,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+
+import json
 from datasets import Dataset
 from PIL import Image
 
@@ -102,7 +104,7 @@ def build_arabic_digits_dataset(
             tmp_path = os.path.join(tmp_dir, f"hajji_dg_{rng.randint(0, int(1e9))}.png")
             pil.save(tmp_path)
 
-            out["messages"].append(_row_to_messages(tmp_path, text))
+            out["messages"].append(json.dumps(_row_to_messages(tmp_path, text)))
         return out
 
     return ds.map(
