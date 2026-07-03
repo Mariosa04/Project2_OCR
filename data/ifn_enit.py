@@ -47,10 +47,18 @@ def _load_ifn_enit_pairs(root_dir: str, split: str) -> list[dict[str, str]]:
     pairs = []
     for lbl_file in sorted(lbl_dir.glob("*.txt")):
         stem = lbl_file.stem
-        img_file = img_dir / f"{stem}.png"
-        if not img_file.exists():
-            img_file = img_dir / f"{stem}.jpg"
-        if not img_file.exists():
+        # Check for multiple image formats
+        valid_exts = (".png", ".jpg", ".jpeg", ".tif", ".tiff")
+        img_file = None
+
+        for ext in valid_exts:
+            potential_file = img_dir / f"{stem}{ext}"
+            if potential_file.exists():
+                img_file = potential_file
+                break
+
+        # If no valid image was found for this text file, skip it
+        if img_file is None:
             continue
 
         text = lbl_file.read_text(encoding="utf-8").strip()
